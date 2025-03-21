@@ -23,6 +23,10 @@ jobs:
   create-release-version:
     runs-on: ubuntu-latest
     needs: run-test
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+
     outputs:
       version: ${{ steps.get_version.outputs.VERSION }}
 
@@ -34,8 +38,8 @@ jobs:
         id: semantic
         uses: cycjimmy/semantic-release-action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Save version for Docker tag
         id: get_version
